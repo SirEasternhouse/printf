@@ -11,9 +11,10 @@
  */
 int _printf(const char *format, ...) /*start of the function*/
 {
-	int num_chars_written =0;
+	int num_chars_written = 0;
 
 	va_list args;
+
 	va_start(args, format);
 
 	while (*format)
@@ -21,50 +22,50 @@ int _printf(const char *format, ...) /*start of the function*/
 		if (*format == '%')
 		{
 			format++; /*move past '%'*/
-		}
-		/*Handling  of format specifiers */
-		switch(*format)
-		{
-			case 'c':
-				{
-					char ch = var_arg(args, int);
-					write(STDOUT_FILENO, &ch,1);
-					num_chars_written++;
-					break;
-				}
-			case 's':
-				{
-					char *str = va_arg(args, char *);
-					while (*str)
+			/*Handling  of format specifiers */
+			switch (*format)
+			{
+				case 'c':
 					{
-						write(STDOUT_FILENO, str,1);
-						str++;
+						char ch = va_arg(args, int);
+
+						write(STDOUT_FILENO, &ch, 1);
 						num_chars_written++;
+						break;
 					}
-					break;
-				}
-			case '%':
-				{
+				case 's':
+					{
+						char *str = va_arg(args, char *);
+
+						while (*str)
+						{
+							write(STDOUT_FILENO, str, 1);
+							str++;
+							num_chars_written++;
+						}
+						break;
+					}
+				case '%':
+					{
+						write(STDOUT_FILENO, "%", 1);
+						num_chars_written++;
+						break;
+					}
+				default:
+					/*if the format specifier is not recognized, print as is*/
 					write(STDOUT_FILENO, "%", 1);
-					num_chars_written++;
+					write(STDOUT_FILENO, format, 1);
+					num_chars_written += 2;
 					break;
-				}
-			default:
-				/*if the format specifier is not recognized, print as is*/
-				write(STDOUT_FILENO, "%", 1);
-				write(STDOUT_FILENO, format,1);
-				num_chars_written += 2;
-				break;
+			}
 		}
 		else
 		{
 			write(STDOUT_FILENO, format, 1);
 			num_chars_written++;
 		}
+		format++;
 	}
-	
 	va_end(args);
-
 	return (num_chars_written);
-
 }
