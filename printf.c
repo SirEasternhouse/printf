@@ -2,6 +2,7 @@
 #include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
+
 /**
  * _printf - print formated characters or strings to the standard output
  * @format: the string or character to print
@@ -12,9 +13,9 @@
 int _printf(const char *format, ...) /*start of the function*/
 {
 	va_list args;
-	char specifier = tolower(*format);
-
 	va_start(args, format);
+
+	int num_chars_written = 0;
 
 	while (*format)
 	{
