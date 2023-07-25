@@ -2,6 +2,7 @@
 #include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
+#include <ctype.h>
 /**
  * _printf - print formated characters or strings to the standard output
  * @format: the string or character to print
@@ -14,6 +15,7 @@ int _printf(const char *format, ...) /*start of the function*/
 	int num_chars_written = 0;
 
 	va_list args;
+	char specifier = tolower(*format);
 
 	va_start(args, format);
 
@@ -23,7 +25,7 @@ int _printf(const char *format, ...) /*start of the function*/
 		{
 			format++; /*move past '%'*/
 			/*Handling  of format specifiers */
-			switch (*format)
+			switch (specifier)
 			{
 				case 'c':
 					{
@@ -43,6 +45,17 @@ int _printf(const char *format, ...) /*start of the function*/
 							str++;
 							num_chars_written++;
 						}
+						break;
+					}
+				case 'd':
+				case 'i':
+					{
+						int num = va_arg(args, int);
+						char num_str[20];
+						int length = int_to_str(num_str, num);
+
+						write(STDOUT_FILENO, num_str, length);
+						num_chars_written += length;
 						break;
 					}
 				case '%':
