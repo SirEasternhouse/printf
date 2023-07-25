@@ -2,7 +2,6 @@
 #include "main.h"
 #include <stdarg.h>
 #include <unistd.h>
-#include <ctype.h>
 /**
  * _printf - print formated characters or strings to the standard output
  * @format: the string or character to print
@@ -12,8 +11,6 @@
  */
 int _printf(const char *format, ...) /*start of the function*/
 {
-	int num_chars_written = 0;
-
 	va_list args;
 	char specifier = tolower(*format);
 
@@ -25,7 +22,7 @@ int _printf(const char *format, ...) /*start of the function*/
 		{
 			format++; /*move past '%'*/
 			/*Handling  of format specifiers */
-			switch (specifier)
+			switch (*format)
 			{
 				case 'c':
 					{
