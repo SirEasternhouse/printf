@@ -12,10 +12,11 @@
  */
 int _printf(const char *format, ...) /*start of the function*/
 {
-	va_list args;
-	va_start(args, format);
-
 	int num_chars_written = 0;
+
+	va_list args;
+
+	va_start(args, format);
 
 	while (*format)
 	{
